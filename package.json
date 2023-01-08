@@ -1,0 +1,20 @@
+{
+  "name": "@yinpo/type-utils",
+  "version": "0.0.1",
+  "description": "Implement the types of type-challenge",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DvYinPo/type-utils.git"
+  },
+  "keywords": [
+    "typescript",
+    "type-utils"
+  ],
+  "author": "yinpo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DvYinPo/type-utils/issues"
+  },
+  "homepage": "https://github.com/DvYinPo/type-utils#readme"
+}
