@@ -26,7 +26,9 @@ export type TupleToObject<T extends readonly any[]> = {
  * First of Array
  * > Implement a generic First<T> that takes an Array T and returns it's first element's type.
  */
-export type First<T extends any[]> = T extends [infer K, ...infer P] ? K : never;
+export type First<T extends any[]> = T extends [infer K, ...infer P]
+  ? K
+  : never;
 
 /** Length of Tuple
  * > For given a tuple, you need create a generic Length, pick the length of the tuple
@@ -94,7 +96,9 @@ export type MyParameters<T> = T extends (...P: infer S) => any ? S : never;
 /** Get Return Type
  * > Implement the built-in ReturnType<T> generic without using it.
  */
-export type MyReturnType<T extends Function> = T extends (...args: any) => infer R
+export type MyReturnType<T extends Function> = T extends (
+  ...args: any
+) => infer R
   ? R
   : never;
 
@@ -228,7 +232,7 @@ export type AppendArgument<Fn, A> = Fn extends (...args: infer R) => infer T
 /** Permutation
  * > Implement permutation type that transforms union types into the array that includes permutations of unions.
  */
-export type Permutation<T> = never
+export type Permutation<T> = never;
 
 /** Length of String
  * > Compute the length of a string literal, which behaves like String#length.
@@ -262,9 +266,8 @@ export type AppendToObject<T, K extends keyof any, V> = {
 /** Absolute
  * > Implement the Absolute type. A type that take string, number or bigint. The output should be a positive number string
  */
-export type Absolute<T extends string | number | bigint> = `${T}` extends `-${infer N}`
-  ? `${N}`
-  : `${T}`;
+export type Absolute<T extends string | number | bigint> =
+  `${T}` extends `-${infer N}` ? `${N}` : `${T}`;
 
 /** String to Union
  * > Implement the String to Union type. Type take string argument. The output should be a union of input letters
@@ -306,7 +309,14 @@ export type Diff<T, R> = {
 /** AnyOf
  * > Implement Python liked any function in the type system. A type takes the Array and returns true if any element of the Array is true. If the Array is empty, return false.
  */
-export type Falsy = undefined | null | 0 | "" | false | [] | { [key: string]: never };
+export type Falsy =
+  | undefined
+  | null
+  | 0
+  | ""
+  | false
+  | []
+  | { [key: string]: never };
 type AnyOf<R extends any[]> = R extends [infer F, ...infer R]
   ? F extends Falsy
     ? AnyOf<R>
@@ -321,7 +331,11 @@ export type IsNever<T> = (() => T) extends () => never ? true : false;
 /** IsUnion
  * > Implement a type IsUnion, which takes an input type T and returns whether T resolves to a union type.
  */
-export type IsUnion<T, B = T> = T extends B ? ([B] extends [T] ? false : true) : never;
+export type IsUnion<T, B = T> = T extends B
+  ? [B] extends [T]
+    ? false
+    : true
+  : never;
 
 /** ReplaceKeys
  * > Implement a type ReplaceKeys, that replace keys in union types, if some type has not this key, just skip replacing, A type takes three arguments.
@@ -368,7 +382,10 @@ export type DropChar<S, C extends string> = S extends `${infer L}${C}${infer R}`
 /** MinusOne
  * > Given a number (always positive) as a type. Your type should return the number decreased by one.
  */
-export type MinusOne<T extends number, A extends any[] = []> = A["length"] extends T
+export type MinusOne<
+  T extends number,
+  A extends any[] = []
+> = A["length"] extends T
   ? A extends [...infer F, any]
     ? F["length"]
     : never
@@ -391,7 +408,9 @@ export type StartsWith<T, U extends string> = T extends `${U}${infer R}`
 /** EndsWith
  * > Implement EndsWith<T, U> which takes two exact string types and returns whether T ends with U
  */
-export type EndsWith<T, U extends string> = T extends `${infer F}${U}` ? true : false;
+export type EndsWith<T, U extends string> = T extends `${infer F}${U}`
+  ? true
+  : false;
 
 export type IntersectionToObj<T> = {
   [K in keyof T]: T[K];
@@ -434,7 +453,9 @@ export type OmitByType<T, K> = {
 /**
  * remove undefined
  */
-export type RemoveUndefined<T> = [T] extends [undefined] ? T : Exclude<T, undefined>;
+export type RemoveUndefined<T> = [T] extends [undefined]
+  ? T
+  : Exclude<T, undefined>;
 
 /** ObjectEntries
  * > Implement the type version of Object.entries
@@ -465,17 +486,17 @@ export type Reverse<T extends any[], R extends any[] = []> = T extends [
   ? Reverse<Rest, [F, ...R]>
   : R;
 
-  /** Flip Arguments
-   * > Implement the type version of lodash's \_.flip.
-   * > Type FlipArguments<T> requires function type T and returns a new function type which has the same return type of T but reversed parameters.
-   */
+/** Flip Arguments
+ * > Implement the type version of lodash's \_.flip.
+ * > Type FlipArguments<T> requires function type T and returns a new function type which has the same return type of T but reversed parameters.
+ */
 export type FlipArguments<T> = T extends (...arg: infer U) => void
   ? (...arg: Reverse<U>) => void
   : never;
 
-  /** FlattenDepth
-   * > Recursively flatten array up to depth times.
-   */
+/** FlattenDepth
+ * > Recursively flatten array up to depth times.
+ */
 export type FlattenDepth<
   U extends any[],
   T extends number = 1,
@@ -488,11 +509,11 @@ export type FlattenDepth<
     : [F, ...FlattenDepth<Rest, T, A>]
   : U;
 
-  /** BEM style string
-   * > The Block, Element, Modifier methodology (BEM) is a popular naming convention for classes in CSS.
-   * > For example, the block component would be represented as btn, element that depends upon the block would be represented as btn**price, modifier that changes the style of the block would be represented as btn--big or btn**price--warning.
-   * > Implement BEM<B, E, M> which generate string union from these three parameters. Where B is a string literal, E and M are string arrays (can be empty).
-   */
+/** BEM style string
+ * > The Block, Element, Modifier methodology (BEM) is a popular naming convention for classes in CSS.
+ * > For example, the block component would be represented as btn, element that depends upon the block would be represented as btn**price, modifier that changes the style of the block would be represented as btn--big or btn**price--warning.
+ * > Implement BEM<B, E, M> which generate string union from these three parameters. Where B is a string literal, E and M are string arrays (can be empty).
+ */
 export type BEM<
   B extends string,
   E extends string[] = [],
@@ -501,15 +522,14 @@ export type BEM<
   ? ""
   : `--${M[number]}`}`;
 
-
 interface TreeNode {
   left: TreeNode | null;
   right: TreeNode | null;
   val: any;
 }
-  /** InorderTraversal
-   * > Implement the type version of binary tree inorder traversal.
-   */
+/** InorderTraversal
+ * > Implement the type version of binary tree inorder traversal.
+ */
 export type InorderTraversal<
   T extends TreeNode | null,
   NT extends TreeNode = NonNullable<T>
@@ -521,9 +541,9 @@ export type InorderTraversal<
     ]
   : [];
 
-  /** Flip
-   * > Implement the type of just-flip-object. Examples:
-   */
+/** Flip
+ * > Implement the type of just-flip-object. Examples:
+ */
 export type Flip<T extends Record<string, string | number | boolean>> = {
-  [Key in keyof T as `${T[Key]}`]: Key
-}
+  [Key in keyof T as `${T[Key]}`]: Key;
+};
