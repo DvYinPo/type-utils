@@ -431,11 +431,15 @@ export type OmitByType<T, K> = {
   [Key in keyof T as T[Key] extends K ? never : Key]: T[Key];
 };
 
+/**
+ * remove undefined
+ */
+export type RemoveUndefined<T> = [T] extends [undefined] ? T : Exclude<T, undefined>;
+
 /** ObjectEntries
  * > Implement the type version of Object.entries
  */
-export type RemoveUndefined<T> = [T] extends [undefined] ? T : Exclude<T, undefined>;
-type ObjectEntries<T> = {
+export type ObjectEntries<T> = {
   [Key in keyof T]-?: [Key, RemoveUndefined<T[Key]>];
 }[keyof T];
 
@@ -450,3 +454,76 @@ export type Shift<T extends any[]> = T extends [any, ...infer Rest] ? Rest : T;
 export type TupleToNestedObject<T, U> = T extends [infer F, ...infer Rest]
   ? { [K in F & string]: TupleToNestedObject<Rest, U> }
   : U;
+
+/** Reverse
+ * > Implement the type version of Array.reverse
+ */
+export type Reverse<T extends any[], R extends any[] = []> = T extends [
+  infer F,
+  ...infer Rest
+]
+  ? Reverse<Rest, [F, ...R]>
+  : R;
+
+  /** Flip Arguments
+   * > Implement the type version of lodash's \_.flip.
+   * > Type FlipArguments<T> requires function type T and returns a new function type which has the same return type of T but reversed parameters.
+   */
+export type FlipArguments<T> = T extends (...arg: infer U) => void
+  ? (...arg: Reverse<U>) => void
+  : never;
+
+  /** FlattenDepth
+   * > Recursively flatten array up to depth times.
+   */
+export type FlattenDepth<
+  U extends any[],
+  T extends number = 1,
+  A extends any[] = []
+> = A["length"] extends T
+  ? U
+  : U extends [infer F, ...infer Rest]
+  ? F extends any[]
+    ? [...FlattenDepth<F, T, [...A, never]>, ...FlattenDepth<Rest, T, A>]
+    : [F, ...FlattenDepth<Rest, T, A>]
+  : U;
+
+  /** BEM style string
+   * > The Block, Element, Modifier methodology (BEM) is a popular naming convention for classes in CSS.
+   * > For example, the block component would be represented as btn, element that depends upon the block would be represented as btn**price, modifier that changes the style of the block would be represented as btn--big or btn**price--warning.
+   * > Implement BEM<B, E, M> which generate string union from these three parameters. Where B is a string literal, E and M are string arrays (can be empty).
+   */
+export type BEM<
+  B extends string,
+  E extends string[] = [],
+  M extends string[] = []
+> = `${B}${E["length"] extends 0 ? "" : `__${E[number]}`}${M["length"] extends 0
+  ? ""
+  : `--${M[number]}`}`;
+
+
+interface TreeNode {
+  left: TreeNode | null;
+  right: TreeNode | null;
+  val: any;
+}
+  /** InorderTraversal
+   * > Implement the type version of binary tree inorder traversal.
+   */
+export type InorderTraversal<
+  T extends TreeNode | null,
+  NT extends TreeNode = NonNullable<T>
+> = T extends TreeNode
+  ? [
+      ...InorderTraversal<NT["left"]>,
+      NT["val"],
+      ...InorderTraversal<NT["right"]>
+    ]
+  : [];
+
+  /** Flip
+   * > Implement the type of just-flip-object. Examples:
+   */
+export type Flip<T extends Record<string, string | number | boolean>> = {
+  [Key in keyof T as `${T[Key]}`]: Key
+}
