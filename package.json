@@ -3,6 +3,7 @@
   "version": "0.0.6",
   "description": "Implement the types of type-challenge",
   "main": "index.ts",
+  "type": "module",
   "files": [
     "types",
     "src",
