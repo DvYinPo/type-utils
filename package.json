@@ -1,6 +1,6 @@
 {
   "name": "@yinpo/types",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Implement the types of type-challenge",
   "main": "index.ts",
   "type": "module",
