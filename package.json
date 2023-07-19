@@ -1,16 +1,26 @@
 {
-  "name": "@yinpo/type-utils",
-  "version": "0.0.1",
+  "name": "@yinpo/types",
+  "version": "0.0.6",
   "description": "Implement the types of type-challenge",
   "main": "index.ts",
+  "files": [
+    "types",
+    "src",
+    "index.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DvYinPo/type-utils.git"
   },
   "keywords": [
     "typescript",
-    "type-utils"
+    "type-utils",
+    "type challenge",
+    "yinpo"
   ],
+  "scripts": {
+    "prepare": "husky install"
+  },
   "author": "yinpo",
   "license": "ISC",
   "publishConfig": {
@@ -20,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/DvYinPo/type-utils/issues"
   },
-  "homepage": "https://github.com/DvYinPo/type-utils#readme"
+  "homepage": "https://github.com/DvYinPo/type-utils#readme",
+  "devDependencies": {
+    "husky": "^8.0.3"
+  }
 }

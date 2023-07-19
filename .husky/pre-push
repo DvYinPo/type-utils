@@ -1,0 +1,21 @@
+#!/bin/sh
+
+node "scripts/versionCheck.js"
+
+checkResult=$?
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    branch_name="${remote_ref##refs/heads/}"
+
+    # 如果分支名称为 'main' ，则执行特定逻辑
+    if [[ "$branch_name" == "main" ]]; then
+        echo "You're pushing to main!"
+        # 在此处添加你想要运行的其他命令
+        if [ $checkResult -eq 1 ]; then
+          echo "脚本执行中止！"
+          exit 1
+        fi
+    fi
+
+done
